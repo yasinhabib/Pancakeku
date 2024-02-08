@@ -37,7 +37,7 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     flex: 1
                 }}
             >
-                <View paddingH-15 paddingV-5 bg-white style={{backgroundColor: index % 2 == 0 ? Colors.grey70 : Colors.grey50, flexDirection: 'column'}}>
+                <View paddingL-15 paddingR-9 paddingV-5 bg-white style={{backgroundColor: index % 2 == 0 ? Colors.grey70 : Colors.grey50, flexDirection: 'column'}}>
                     <View style={{flexDirection:'row'}}>
                         <Text text70 style={{flex: 1}}>{expenseIncomeData.description}</Text>
                         <Text text70 style={{flexBasis: 'auto', textAlign: 'right'}}>{formatCurrency(expenseIncomeData.nominal)}</Text>
