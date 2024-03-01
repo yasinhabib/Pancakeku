@@ -1,63 +1,31 @@
+import 'setimmediate'
 import React, {useState} from 'react';
 import {
   StatusBar,
 } from 'react-native';
 import { View } from 'react-native-ui-lib';
-import { Calendar } from 'react-native-calendars';
-import ExpenseIncome from './ExpenseIncome';
-import { ExpenseIncomeDataType } from './ExpenseIncome/interface';
-import Header from './Header';
+import ExpenseIncome from './src/ExpenseIncome';
+import Header from './src/Header';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
+import FormInputModal from './src/FormInputModal';
+import ExpenseIncomeCalendar from './src/ExpenseIncomeCalendar';
 
-const expenseIncomeDatas : ExpenseIncomeDataType[] = [
-  {
-    date: '2024-02-08',
-    description: 'Cuci Motor',
-    type: 'E',
-    nominal: 15000
-  },
-  {
-    date: '2024-02-08',
-    description: 'Galon',
-    type: 'E',
-    nominal: 5000
-  },
-  {
-    date: '2024-02-08',
-    description: 'Gaji',
-    type: 'I',
-    nominal: 8000000
-  },
-]
-
-const income = {key: 'income', color: 'green', selectedDotColor: 'blue'};
-const expense = {key: 'expense', color: 'red', selectedDotColor: 'blue'};
-
-const App = () => {
-  const [selected,setSelected] = useState('')
-  
+const App = () => {  
   return (
-    
-    <View useSafeArea style={{flexDirection: 'column',flex: 1}}>
-        <StatusBar
-          animated={true}
-          backgroundColor="#61dafb"
-          barStyle={'default'}
-          />
-          <Header />
-          <View style={{flexBasis: 'auto'}}>
-            <Calendar 
-              onDayPress={day => {
-                setSelected(day.dateString);
-              }}
-              markingType={'multi-dot'}
-              markedDates={{
-                [selected]: {selected: true, disableTouchEvent: true, selectedColor: 'orange'},
-                '2024-02-08': {dots: [income, expense]}
-              }}
+      <Provider store={store}>
+        <View useSafeArea style={{flexDirection: 'column',flex: 1}}>
+            <StatusBar
+              animated={true}
+              backgroundColor="#61dafb"
+              barStyle={'default'}
               />
-          </View>
-          <ExpenseIncome expenseIncomeDatas={expenseIncomeDatas}/>    
-    </View>
+              <Header />
+              <ExpenseIncomeCalendar />
+              <ExpenseIncome />    
+              <FormInputModal />    
+        </View>
+      </Provider>
   );
 };
 

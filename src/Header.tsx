@@ -1,7 +1,15 @@
 import { Button, Colors, Text, View } from "react-native-ui-lib"
 import { FontAwesome } from '@expo/vector-icons';
+import { useDispatch } from "react-redux";
+import { setVisible } from "./redux/slices/inputModal";
 
 const Header = () => {
+    const dispatch = useDispatch()
+
+    const onClick = () => {
+        dispatch(setVisible(true))
+    }
+
     return(
         <View 
             padding-10  
@@ -16,9 +24,11 @@ const Header = () => {
         >
             <Text adjustsFontSizeToFit style={{fontSize: 24, color: Colors.grey80}}>Pancakeku</Text>
             <Button 
-            link={true}
-            outline={false}
-            iconSource={() => <FontAwesome name={'plus-circle'} size={24} color={'cornsilk'}/>}/>
+                link={true}
+                outline={false}
+                iconSource={() => <FontAwesome name={'plus-circle'} size={24} color={'white'}/>}
+                onPress={onClick}
+            />
         </View>
     )
 }

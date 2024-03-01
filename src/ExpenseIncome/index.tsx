@@ -1,16 +1,25 @@
 import { Colors, Drawer, Text, View } from "react-native-ui-lib"
-import { ExpenseIncomeDataType } from "./interface"
 import ExpenseIncomeItem from "./ExpenseIncomeItem"
 import { ScrollView } from "react-native"
-import { formatCurrency } from "../helper"
+import { dateFormat, formatCurrency } from "../helper"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../redux/store"
+import { useEffect, useState } from "react"
+import { ExpenseIncomeDataType } from "../redux/slices/editData"
+import { GET_DATA_BY_DATE } from "../redux/types"
 
-type ExpenseIncomeType = {
-    expenseIncomeDatas : ExpenseIncomeDataType[]
-}
+const ExpenseIncome = () => {
+    const dispatch = useDispatch()
+    const expenseIncomeData = useSelector((state: RootState) => state.expenseIncomeData)
+    const {date} = useSelector((state: RootState) => state.selectedDate)
 
-const ExpenseIncome = ({expenseIncomeDatas} : ExpenseIncomeType) => {
-    const incomeData = expenseIncomeDatas.filter(value => value.type == 'I')
-    const expenseData = expenseIncomeDatas.filter(value => value.type == 'E')
+    const incomeData = expenseIncomeData.filter(value => value.type == 'I')
+    const expenseData = expenseIncomeData.filter(value => value.type == 'E')
+
+    useEffect(() => {
+        dispatch({type: GET_DATA_BY_DATE, date: date})
+    },[date])
+
     return(
         <View style={{
             flexDirection:'column',
@@ -26,7 +35,7 @@ const ExpenseIncome = ({expenseIncomeDatas} : ExpenseIncomeType) => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Tanggal : 2024-02-08</Text>
+                <Text color={Colors.grey80}>Tanggal : {dateFormat(date)}</Text>
             </View>
             <View 
                 centerV 
@@ -40,7 +49,7 @@ const ExpenseIncome = ({expenseIncomeDatas} : ExpenseIncomeType) => {
                 }}
             >
                 <Text text70>Total Pemasukan</Text>
-                <Text text70>{formatCurrency(incomeData.map(value => value.nominal).reduce((a,b) => a + b, 0))}</Text>
+                <Text text70>{formatCurrency(incomeData.map(value => value.nominal || 0).reduce((a,b) => a + b, 0))}</Text>
             </View>
             {
                 incomeData.length == 0 && <View centerV padding-s2 bg-white style={{ backgroundColor: Colors.white, flexGrow: 1}}>
@@ -69,7 +78,7 @@ const ExpenseIncome = ({expenseIncomeDatas} : ExpenseIncomeType) => {
                 }}
             >
                 <Text text70>Total Pengeluaran</Text>
-                <Text text70>{formatCurrency(expenseData.map(value => value.nominal).reduce((a,b) => a + b, 0))}</Text>
+                <Text text70>{formatCurrency(expenseData.map(value => value.nominal || 0).reduce((a,b) => a + b, 0))}</Text>
             </View>
             {
                 expenseData.length == 0 && <View centerV padding-s2 bg-white style={{height: 40, backgroundColor: Colors.white, flexGrow: 1}}>
