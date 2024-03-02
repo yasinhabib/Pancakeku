@@ -1,11 +1,10 @@
-import { Colors, Drawer, Text, View } from "react-native-ui-lib"
+import { Colors, Text, View } from "react-native-ui-lib"
 import ExpenseIncomeItem from "./ExpenseIncomeItem"
 import { ScrollView } from "react-native"
 import { dateFormat, formatCurrency } from "../helper"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../redux/store"
-import { useEffect, useState } from "react"
-import { ExpenseIncomeDataType } from "../redux/slices/editData"
+import { useEffect } from "react"
 import { GET_DATA_BY_DATE } from "../redux/types"
 
 const ExpenseIncome = () => {

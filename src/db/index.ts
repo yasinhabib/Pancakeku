@@ -1,30 +1,37 @@
-import { Query, ResultSet, SQLiteDatabase } from "expo-sqlite";
+import { Query, ResultSet, ResultSetError, SQLStatementArg, SQLiteDatabase } from "expo-sqlite";
 import { formatDate, openDatabase } from "../helper"
 import { ExpenseIncomeDataType } from "../redux/slices/editData";
 
   
 export const connectToDatabase = () => {
     const db = openDatabase()
-
-    db.transaction((tx) => {
-        tx.executeSql(`
-            CREATE TABLE IF NOT EXISTS ExpenseIncomes (
-                id INTEGER DEFAULT 1,
-                date DATE,
-                description TEXT,
-                type TEXT,
-                nominal REAL,
-                PRIMARY KEY(id)
-            )
-        `);
-    });
-
     return db
 }
 
-export const dbGetDataByDate = async (db: SQLiteDatabase,date? : String) => {
+export const dbGetDataByDate = async (db: SQLiteDatabase,date : String) => {
     const query : Query[] = [{sql: 'select * from ExpenseIncomes where date = ?',args: [date]}]
-    const res = await db.execAsync(query,true)
+    const getData = async () => {
+        return await db.execAsync(query,true)
+    }
+    let res = await getData()
+    if((res[0] as ResultSetError).error){
+        await db.transactionAsync(
+            async (tx) => {
+                await tx.executeSqlAsync(`
+                    CREATE TABLE IF NOT EXISTS ExpenseIncomes (
+                        id INTEGER DEFAULT 1,
+                        date DATE,
+                        description TEXT,
+                        type TEXT,
+                        nominal REAL,
+                        PRIMARY KEY(id)
+                    )
+                `);
+                
+                res[0] = await tx.executeSqlAsync("select * from ExpenseIncomes where date = ?", [date as SQLStatementArg]);
+            }
+        );
+    }
     const resultSet = res[0] as ResultSet
     return resultSet
 }

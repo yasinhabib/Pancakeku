@@ -1,5 +1,5 @@
 import { Button, Colors, Text, View } from "react-native-ui-lib"
-import { FontAwesome } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useDispatch } from "react-redux";
 import { setVisible } from "./redux/slices/inputModal";
 
@@ -26,7 +26,8 @@ const Header = () => {
             <Button 
                 link={true}
                 outline={false}
-                iconSource={() => <FontAwesome name={'plus-circle'} size={24} color={'white'}/>}
+                color="white"
+                iconSource={() => <Ionicons name="add-circle-outline" size={32} color="white" />}
                 onPress={onClick}
             />
         </View>

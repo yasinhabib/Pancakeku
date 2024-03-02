@@ -8,7 +8,7 @@ type AnyAction = {type: string, month: number, year: number}
 
 export function* getDataMarkerSagas({month, year} : AnyAction) {
     try{   
-        const db = connectToDatabase()
+        const db : SQLiteDatabase = yield connectToDatabase()
         const res : ResultSet = yield dbGetDataMarker(db,month,year)
         yield put(setDataMarker(res.rows as {
             date: string,

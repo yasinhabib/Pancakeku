@@ -11,7 +11,7 @@ type AnyAction = {type: string, param: ExpenseIncomeDataType}
 
 export function* insertDataSagas({param} : AnyAction) {
     try{   
-        const db = connectToDatabase()
+        const db : SQLiteDatabase = yield connectToDatabase()
         yield dbInsertData(db,param)
 
         const selectedDate = new Date(param.date || '')

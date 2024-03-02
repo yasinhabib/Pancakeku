@@ -10,7 +10,7 @@ type AnyAction = {type: string, id: number, date: string}
 
 export function* deleteDataSagas({id,date} : AnyAction) {
     try{   
-        const db = connectToDatabase()
+        const db : SQLiteDatabase = yield connectToDatabase()
         yield dbDeleteData(db,id)
 
         const selectedDate = new Date(date)

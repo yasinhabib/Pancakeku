@@ -8,8 +8,8 @@ import { formatDate } from "../helper";
 import selectedDate, { setSelectedDate } from "../redux/slices/selectedDate";
 import { GET_MARKER } from "../redux/types";
 
-const income = {key: 'income', color: 'green', selectedDotColor: 'blue'};
-const expense = {key: 'expense', color: 'red', selectedDotColor: 'blue'};
+const income = {key: 'income', color: 'green', selectedDotColor: 'green'};
+const expense = {key: 'expense', color: 'red', selectedDotColor: 'red'};
 
 const ExpenseIncomeCalendar = () => {
     const dispatch = useDispatch()
