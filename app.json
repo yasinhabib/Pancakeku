@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Pancakeku",
-    "slug": "Pancakeku",
+    "name": "Finotes",
+    "slug": "finotes",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.yasinhabib.Pancakeku"
+      "package": "com.yasinhabib.Finotes"
     },
     "web": {
       "favicon": "./assets/favicon.png"
