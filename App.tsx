@@ -12,6 +12,7 @@ import { store } from './src/redux/store';
 import FormInputModal from './src/FormInputModal';
 import ExpenseIncomeCalendar from './src/ExpenseIncomeCalendar';
 import { connectToDatabase } from './src/db';
+import Summary from './src/Summary';
 
 const App = () => {  
   useEffect(() => {
@@ -26,11 +27,12 @@ const App = () => {
               animated={true}
               backgroundColor="#61dafb"
               barStyle={'default'}
-              />
-              <Header />
-              <ExpenseIncomeCalendar />
-              <ExpenseIncome />    
-              <FormInputModal />    
+            />
+            <Header />
+            <ExpenseIncome />    
+            <ExpenseIncomeCalendar />
+            <FormInputModal />  
+            <Summary />  
         </View>
       </Provider>
   );

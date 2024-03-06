@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import { GET_MARKER } from '../types'
 import { connectToDatabase, dbGetDataMarker } from '../../db';
-import { ResultSet } from 'expo-sqlite';
+import { ResultSet, SQLiteDatabase } from 'expo-sqlite';
 import { setDataMarker } from '../slices/markerData';
 
 type AnyAction = {type: string, month: number, year: number}

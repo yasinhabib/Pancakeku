@@ -8,9 +8,8 @@ const expenseIncomeData = createSlice({
     initialState,
     reducers: {
         setNewData : (state, action : PayloadAction<ExpenseIncomeDataType[]>) => {
-          state = action.payload
-
-          return state
+            state = action.payload
+            return state
         },
         insertData: (state,action : PayloadAction<ExpenseIncomeDataType>) => {
             let lastid = 0

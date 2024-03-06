@@ -2,8 +2,8 @@ import { put, takeEvery } from 'redux-saga/effects'
 import { setNewData } from '../slices/expenseIncomeData';
 import { INSERT } from '../types'
 import { ExpenseIncomeDataType } from '../slices/editData';
-import { connectToDatabase, dbGetDataByDate, dbGetDataMarker, dbInsertData } from '../../db';
-import { ResultSet } from 'expo-sqlite';
+import { connectToDatabase, dbGetDataByDateType, dbGetDataMarker, dbInsertData } from '../../db';
+import { ResultSet, SQLiteDatabase } from 'expo-sqlite';
 import { setDataMarker } from '../slices/markerData';
 import { setSelectedDate } from '../slices/selectedDate';
 
@@ -24,7 +24,7 @@ export function* insertDataSagas({param} : AnyAction) {
             type: string
         }[]))
 
-        const resData : ResultSet = yield dbGetDataByDate(db,param.date || '')
+        const resData : ResultSet = yield dbGetDataByDateType(db,param.date || '',param.type || '')
         yield put(setNewData(resData.rows))
     }catch(error: any){
         console.log(error)

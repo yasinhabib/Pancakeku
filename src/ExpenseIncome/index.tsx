@@ -1,98 +1,37 @@
-import { Colors, Text, View } from "react-native-ui-lib"
-import ExpenseIncomeItem from "./ExpenseIncomeItem"
-import { ScrollView } from "react-native"
-import { dateFormat, formatCurrency } from "../helper"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../redux/store"
-import { useEffect } from "react"
-import { GET_DATA_BY_DATE } from "../redux/types"
+import { Button, View } from "react-native-ui-lib"
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useDispatch } from "react-redux"
+import { setVisible } from "../redux/slices/inputModal";
 
 const ExpenseIncome = () => {
     const dispatch = useDispatch()
-    const expenseIncomeData = useSelector((state: RootState) => state.expenseIncomeData)
-    const {date} = useSelector((state: RootState) => state.selectedDate)
-
-    const incomeData = expenseIncomeData.filter(value => value.type == 'I')
-    const expenseData = expenseIncomeData.filter(value => value.type == 'E')
-
-    useEffect(() => {
-        dispatch({type: GET_DATA_BY_DATE, date: date})
-    },[date])
-
+    
     return(
         <View style={{
-            flexDirection:'column',
-            flex: 1
+            flexDirection:'row',
+            alignItems:'flex-start',
+            gap: 16,
+            padding: 16
         }}>
-            <View 
-                centerV 
-                padding-s2 
-                style={{
-                    backgroundColor: 'chocolate',
-                    flexBasis: 'auto', 
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                }}
-            >
-                <Text color={Colors.grey80}>Tanggal : {dateFormat(date)}</Text>
-            </View>
-            <View 
-                centerV 
-                padding-s2 
-                bg-white 
-                style={{
-                    backgroundColor: Colors.$backgroundSuccessLight, 
-                    flexBasis: 'auto', 
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
-                }}
-            >
-                <Text text70>Total Pemasukan</Text>
-                <Text text70>{formatCurrency(incomeData.map(value => value.nominal || 0).reduce((a,b) => a + b, 0))}</Text>
-            </View>
-            {
-                incomeData.length == 0 && <View centerV padding-s2 bg-white style={{ backgroundColor: Colors.white, flexGrow: 1}}>
-                    <Text center text70>Tidak ada pemasukan</Text>
-                </View>
-            }
-            {
-                incomeData.length > 0 && <ScrollView scrollEnabled={true} alwaysBounceHorizontal={false} style={{flex: 1}}>
-                {
-                    incomeData.map((value,index) => (
-                        <ExpenseIncomeItem key={index} index={index} expenseIncomeData={value}/>
-                    ))
-                }
-                </ScrollView>
-            }
+            <Button 
+                label="Pemasukan" 
+                flexG 
+                borderRadius={8} 
+                backgroundColor={'#66bb6a'}
+                iconSource={() => <Ionicons name="add-circle-outline" size={24} color="white" />}
+                labelProps={{style:{fontSize: 24, color: 'white'}}}
+                onPress={() => dispatch(setVisible({visible: true, title: 'Pemasukan'}))}
+            />
+            <Button 
+                label="Pengeluaran" 
+                flexG 
+                borderRadius={8} 
+                backgroundColor={'#f44336'}
+                iconSource={() => <Ionicons name="remove-circle-outline" size={24} color="white" />}
+                labelProps={{style:{fontSize: 24, color: 'white'}}}
+                onPress={() => dispatch(setVisible({visible: true, title: 'Pengeluaran'}))}
+            />
             
-            <View 
-                centerV 
-                padding-s2 
-                bg-white 
-                style={{
-                    backgroundColor: Colors.$backgroundDangerLight, 
-                    flexBasis: 'auto', 
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
-                }}
-            >
-                <Text text70>Total Pengeluaran</Text>
-                <Text text70>{formatCurrency(expenseData.map(value => value.nominal || 0).reduce((a,b) => a + b, 0))}</Text>
-            </View>
-            {
-                expenseData.length == 0 && <View centerV padding-s2 bg-white style={{height: 40, backgroundColor: Colors.white, flexGrow: 1}}>
-                    <Text center text70>Tidak ada pengeluaran</Text>
-                </View>
-            }
-            {
-                expenseData.length > 0 && <ScrollView scrollEnabled={true} alwaysBounceHorizontal={false} style={{flex: 1}}>
-                {
-                    expenseData.map((value,index) => (
-                        <ExpenseIncomeItem key={index} index={index} expenseIncomeData={value}/>
-                    ))
-                }
-                </ScrollView>
-            }
         </View>
     )
 }

@@ -1,14 +1,14 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import { setNewData } from '../slices/expenseIncomeData';
 import { DELETE } from '../types'
-import { connectToDatabase, dbDeleteData, dbGetDataByDate, dbGetDataMarker } from '../../db';
-import { ResultSet } from 'expo-sqlite';
+import { connectToDatabase, dbDeleteData, dbGetDataByDateType, dbGetDataMarker } from '../../db';
+import { ResultSet, SQLiteDatabase } from 'expo-sqlite';
 import { setDataMarker } from '../slices/markerData';
 import { setSelectedDate } from '../slices/selectedDate';
 
-type AnyAction = {type: string, id: number, date: string}
+type AnyAction = {type: string, id: number, date: string, dataType: string}
 
-export function* deleteDataSagas({id,date} : AnyAction) {
+export function* deleteDataSagas({id,date,dataType} : AnyAction) {
     try{   
         const db : SQLiteDatabase = yield connectToDatabase()
         yield dbDeleteData(db,id)
@@ -23,7 +23,7 @@ export function* deleteDataSagas({id,date} : AnyAction) {
             type: string
         }[]))
 
-        const resData : ResultSet = yield dbGetDataByDate(db,date)
+        const resData : ResultSet = yield dbGetDataByDateType(db,date,dataType)
         yield put(setNewData(resData.rows))
     }catch(error: any){
         console.log(error)

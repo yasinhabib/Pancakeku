@@ -1,15 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    visible: false
+    visible: false,
+    title: ''
 }
 
 const inputModal = createSlice({
     name: 'inputModal',
     initialState,
     reducers: {
-        setVisible: (state,action : PayloadAction<boolean>) => {
-            state.visible = action.payload
+        setVisible: (state,action : PayloadAction<{visible: boolean, title: string}>) => {
+            state.visible = action.payload.visible
+            state.title = action.payload.title
             return state
         }
     }

@@ -4,8 +4,7 @@ import { View } from "react-native-ui-lib";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { MarkedDates } from "react-native-calendars/src/types";
-import { formatDate } from "../helper";
-import selectedDate, { setSelectedDate } from "../redux/slices/selectedDate";
+import { setSelectedDate } from "../redux/slices/selectedDate";
 import { GET_MARKER } from "../redux/types";
 
 const income = {key: 'income', color: 'green', selectedDotColor: 'green'};
@@ -51,15 +50,17 @@ const ExpenseIncomeCalendar = () => {
     return(
         <View style={{flexBasis: 'auto'}}>
             <Calendar 
-            onDayPress={day => {
-                dispatch(setSelectedDate(day.dateString));
-            }}
-            onMonthChange={(date) => initMarker(date.month, date.year)}
-            markingType={'multi-dot'}
-            markedDates={{
-                ...markedDates
-            }}
+                onDayPress={day => {
+                    dispatch(setSelectedDate(day.dateString));
+                }}
+                onMonthChange={(date) => initMarker(date.month, date.year)}
+                markingType={'multi-dot'}
+                markedDates={{
+                    ...markedDates
+                }}
+                
             />
+            
         </View>
     )
 }

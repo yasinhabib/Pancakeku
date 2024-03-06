@@ -1,11 +1,13 @@
-import { Colors, Drawer, GridListItem, Text, View } from "react-native-ui-lib"
+import { Button, Colors, Drawer, GridListItem, NumberInput, Text, TextField, View } from "react-native-ui-lib"
 import { FontAwesome } from '@expo/vector-icons';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { formatCurrency } from "../helper";
-import { useDispatch } from "react-redux";
-import { setVisible } from "../redux/slices/inputModal";
+import { useDispatch, useSelector } from "react-redux";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { ExpenseIncomeDataType, setDataEdit } from "../redux/slices/editData";
-import { DELETE } from "../redux/types";
+import { DELETE, UPDATE } from "../redux/types";
+import { useEffect, useState } from "react";
+import { RootState } from "../redux/store";
 
 type ExpenseIncomeItemType = {
     expenseIncomeData : ExpenseIncomeDataType
@@ -14,47 +16,101 @@ type ExpenseIncomeItemType = {
 
 const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
     const dispatch = useDispatch()
+    const {date} = useSelector((state: RootState) => state.selectedDate)
+    const [formData, setFormData] = useState<ExpenseIncomeDataType>()
 
-    const showModalEdit = (data: ExpenseIncomeDataType) => {
-        dispatch(setVisible(true))
-        dispatch(setDataEdit(data))
+    useEffect(() => {
+        setFormData(expenseIncomeData)
+    },[expenseIncomeData.id])
+
+    const submitData = () => {
+        dispatch({type: UPDATE, param: formData})
     }
+
+    const deleteData = () => {
+        dispatch({type: DELETE, id: formData?.id, date: date,dataType: expenseIncomeData.type})
+    }
+
+    useEffect(() => {
+        const getData = setTimeout(() => {
+            if(formData?.nominal !== expenseIncomeData.nominal){
+                submitData()
+            }
+          }, 500)
+      
+          return () => clearTimeout(getData)
+    },[formData?.nominal])
+
     return(
-        <GestureHandlerRootView >
-            <Drawer 
-                rightItems={
-                    [
-                        {
-                            customElement:  <View style={{flexDirection: 'column'}} centerH>
-                                                <FontAwesome name={'pencil'} size={16} color={Colors.grey10}/>
-                                                <Text color={Colors.grey10}>Ubah</Text>
-                                            </View>,
-                            background: Colors.$backgroundWarningHeavy, 
-                            onPress: () => showModalEdit(expenseIncomeData)
-                        },
-                        {
-                            customElement:  <View style={{flexDirection: 'column'}} centerH>
-                                                <FontAwesome name={'trash'} size={16} color={Colors.grey70}/>
-                                                <Text color={Colors.grey70}>Hapus</Text>
-                                            </View>,
-                            background: Colors.$backgroundDangerHeavy, 
-                            onPress: () => dispatch({type: DELETE, id: expenseIncomeData.id, date: expenseIncomeData.date}),
-                        }
-                    ]
-                }
+        <View style={{flexDirection:'row', gap: 8, alignItems: 'stretch', justifyContent: 'space-between'}}>
+            <View 
                 style={{
-                    flex: 1,
-                    height: 40
-                }}
+                    borderColor: 'black', 
+                    borderWidth: 1, 
+                    borderRadius: 8, 
+                    paddingHorizontal: 8,
+                    paddingVertical: 16,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }} 
+                width={'50%'}
             >
-                <View paddingL-15 paddingR-9 paddingV-5 bg-white style={{backgroundColor: index % 2 == 0 ? Colors.grey70 : Colors.grey50, flexDirection: 'column', height: 40, justifyContent: 'center'}}>
-                    <View style={{flexDirection:'row'}}>
-                        <Text text70 style={{flex: 1}}>{expenseIncomeData.description}</Text>
-                        <Text text70 style={{flexBasis: 'auto', textAlign: 'right'}}>{formatCurrency(expenseIncomeData.nominal || 0)}</Text>
-                    </View>
-                </View>
-            </Drawer>
-        </GestureHandlerRootView>
+                <TextField
+                    placeholder={'Deskripsi'}
+                    // floatingPlaceholder
+                    onSubmitEditing={({nativeEvent: {text}}) => {
+                        setFormData({
+                            ...formData,
+                            description: text
+                        })
+
+                        submitData()
+                    }}
+                    onChange={({nativeEvent: {text}}) => {
+                        setFormData({
+                            ...formData,
+                            description: text
+                        })
+                    }}
+                    defaultValue={formData?.description}
+                    focusable
+                />
+            </View>
+            <View 
+                style={{
+                    borderColor: 'black', 
+                    borderWidth: 1, 
+                    borderRadius: 8, 
+                    paddingHorizontal: 8,
+                    paddingVertical: 16,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                }} 
+                width={'30%'}
+            >
+                {/* <TextInput ref={nominalRef} /> */}
+                <NumberInput 
+                    initialNumber={formData?.nominal}
+                    onChangeNumber={(value) => setFormData({
+                        ...formData,
+                        nominal: value.type === 'valid' ? value.number : 0
+                    })} 
+                    textFieldProps={{textAlign: 'right', focusable: true}}
+                    fractionDigits={0}
+                />
+            </View>
+            <View width={16} flexG>
+                <Button 
+                    flexG 
+                    borderRadius={8} 
+                    backgroundColor={'#f44336'}
+                    iconSource={() => <Ionicons name="trash-bin" size={24} color="white" />}
+                    onPress={() => deleteData()}
+                />
+            </View>
+        </View>
     )
 }
 

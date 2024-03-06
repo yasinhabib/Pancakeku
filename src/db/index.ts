@@ -8,6 +8,34 @@ export const connectToDatabase = () => {
     return db
 }
 
+export const dbGetDataByDateType = async (db: SQLiteDatabase,date : String, type: String) => {
+    const query : Query[] = [{sql: 'select * from ExpenseIncomes where date = ? and type = ?' ,args: [date,type]}]
+    const getData = async () => {
+        return await db.execAsync(query,true)
+    }
+    let res = await getData()
+    if((res[0] as ResultSetError).error){
+        await db.transactionAsync(
+            async (tx) => {
+                await tx.executeSqlAsync(`
+                    CREATE TABLE IF NOT EXISTS ExpenseIncomes (
+                        id INTEGER DEFAULT 1,
+                        date DATE,
+                        description TEXT,
+                        type TEXT,
+                        nominal REAL,
+                        PRIMARY KEY(id)
+                    )
+                `);
+                
+                res[0] = await tx.executeSqlAsync("select * from ExpenseIncomes where date = ? and type = ?", [date as SQLStatementArg, type as SQLStatementArg]);
+            }
+        );
+    }
+    const resultSet = res[0] as ResultSet
+    return resultSet
+}
+
 export const dbGetDataByDate = async (db: SQLiteDatabase,date : String) => {
     const query : Query[] = [{sql: 'select * from ExpenseIncomes where date = ?',args: [date]}]
     const getData = async () => {

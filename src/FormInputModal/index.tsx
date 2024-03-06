@@ -1,133 +1,206 @@
-import { DateTimePicker, Modal, NumberInput, Picker, PickerModes, TextField, View } from "react-native-ui-lib"
+import { Button, Colors, Modal, NumberInput,  Text, TextField, View } from "react-native-ui-lib"
 import { useEffect, useState } from "react"
-import { formatDate } from "../helper"
+import { dateFormat, formatCurrency } from "../helper"
 import { useDispatch, useSelector } from "react-redux"
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootState } from "../redux/store"
 import { setVisible } from "../redux/slices/inputModal"
-import { ExpenseIncomeDataType, setDataEdit } from "../redux/slices/editData"
-import { insertData, updateData } from "../redux/slices/expenseIncomeData"
-import { setSelectedDate } from "../redux/slices/selectedDate"
-import { INSERT, UPDATE } from "../redux/types"
-
-const defaultValue = {
-    date: formatDate(new Date),
-    description: '',
-    nominal: 0,
-    type: ''
-}
+import { ExpenseIncomeDataType } from "../redux/slices/editData"
+import { GET_DATA_BY_DATE_TYPE, INSERT, UPDATE } from "../redux/types"
+import ExpenseIncomeItem from "../ExpenseIncome/ExpenseIncomeItem"
 
 const FormInputModal = () => {
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState<ExpenseIncomeDataType>(defaultValue)
-    const {date} = useSelector((state : RootState) => state.selectedDate)
-    const {visible} = useSelector((state : RootState) => state.inputModal)
-    const data = useSelector((state : RootState) => state.editData)
+    const {date} = useSelector((state: RootState) => state.selectedDate)
+    const [formData, setFormData] = useState<ExpenseIncomeDataType>()
+    // const {date} = useSelector((state : RootState) => state.selectedDate)
+    const {visible,title} = useSelector((state : RootState) => state.inputModal)
+    const data = useSelector((state : RootState) => state.expenseIncomeData)
 
     const onCancel = () => {
-        dispatch(setVisible(false))
-        dispatch(setDataEdit({}))
+        dispatch(setVisible({visible: false, title: ''}))
+        // dispatch(setDataEdit({}))
     }
 
     useEffect(() => {
-        if(data?.id){
-            reset(data)
-        }else{
-            reset({
-                date: date ? date : formatDate(new Date),
+        if(visible){
+            setFormData({
+                date: date,
                 description: '',
                 nominal: 0,
-                type: ''
+                type: title == 'Pemasukan' ? 'I' : 'E'
             })
-        }
-    },[data,date])
 
-    const reset = (data : ExpenseIncomeDataType) => {
-        setFormData(data)
-    }
-    const onSubmit = () => {
-        if(formData.id){
-            dispatch({type: UPDATE, param: formData})
-        }else{
-            dispatch({type: INSERT, param: formData})
+            if(title == 'Pemasukan'){
+                dispatch({type: GET_DATA_BY_DATE_TYPE, dataType: 'I', date: date})
+            }else{
+                dispatch({type: GET_DATA_BY_DATE_TYPE, dataType: 'E', date: date})
+            }
         }
-        onCancel()
+    },[visible])
+
+    const onSubmit = () => {
+        dispatch({type: INSERT, param: formData})
+        setFormData({
+            date: date,
+            description: '',
+            nominal: 0,
+            type: title == 'Pemasukan' ? 'I' : 'E'
+        })
     }
 
     return(
         <Modal visible={visible} onBackgroundPress={onCancel} animationType="slide">
-            <Modal.TopBar title="Tambah Data" onCancel={onCancel} onDone={onSubmit} doneLabel="Simpan" doneButtonProps={{color: 'black'}} useSafeArea/>
+            <Modal.TopBar title={title} onCancel={onCancel} useSafeArea/>
             <View style={{
                 flexDirection:'column',
                 flex: 1,
                 padding: 16,
                 gap: 16
             }}>
-                <DateTimePicker 
-                    value={formData.date? new Date(formData.date|| '') : new Date}
-                    onChange={(date) => {
-                        setFormData({
-                            ...formData,
-                            date: formatDate(date)
-                        })
+                <View 
+                    centerV 
+                    padding-s2 
+                    style={{
+                        backgroundColor: 'chocolate',
+                        flexBasis: 'auto', 
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        gap: 16,
+                        borderRadius: 8
                     }}
-                    placeholder={'Pilih Tanggal'} 
-                    floatingPlaceholder
-                    mode={'date'}
-                    enableErrors
+                >
+                    <View 
+                        style={{
+                            flexDirection:'row', 
+                            gap: 8, 
+                            alignItems: 'stretch', 
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Text color={Colors.grey80}>Tanggal : {dateFormat(date)}</Text>
+                        <Text color={Colors.grey80}>Total : {formatCurrency(data.map((value,index) => value.nominal || 0).reduce((a,b) => a + b,0))}</Text>
+                    </View>
+                    <View 
+                        style={{
+                            flexDirection:'row', 
+                            gap: 8, 
+                            alignItems: 'stretch', 
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <View 
+                            width={'50%'}
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Text color={Colors.grey80} textAlign="center">Deskripsi</Text>
+                        </View>
+                        <View 
+                            width={'30%'}
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                        <Text color={Colors.grey80} textAlign="center">Nominal</Text>
+                        </View>
+                        <View 
+                            width={16} 
+                            flexG
+                            style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Text color={Colors.grey80} textAlign="center">Aksi</Text>
+                        </View>
+                    </View>
+                </View>
+                
+                <View style={{flexDirection:'row', gap: 8, alignItems: 'stretch', justifyContent: 'space-between'}}>
+                    <View 
+                        style={{
+                            borderColor: 'black', 
+                            borderWidth: 1, 
+                            borderRadius: 8, 
+                            paddingHorizontal: 8,
+                            paddingVertical: 16,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center'
+                        }} 
+                        width={'50%'}
+                    >
+                        <TextField
+                            placeholder={'Deskripsi'}
+                            // floatingPlaceholder
+                            onSubmitEditing={({nativeEvent: {text}}) => {
+                                setFormData({
+                                    ...formData,
+                                    description: text
+                                })
+                            }}
+                            onChange={({nativeEvent: {text}}) => {
+                                setFormData({
+                                    ...formData,
+                                    description: text
+                                })
+                            }}
+                            defaultValue={formData?.description}
+                            autoFocus
+                        />
+                    </View>
+                    <View 
+                        style={{
+                            borderColor: 'black', 
+                            borderWidth: 1, 
+                            borderRadius: 8, 
+                            paddingHorizontal: 8,
+                            paddingVertical: 16,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center'
+                        }} 
+                        width={'30%'}
+                    >
+                        {/* <TextInput ref={nominalRef} /> */}
+                        <NumberInput 
+                            initialNumber={formData?.nominal}
+                            onChangeNumber={(value) => setFormData({
+                                ...formData,
+                                nominal: value.type === 'valid' ? value.number : 0
+                            })} 
+                            textFieldProps={{textAlign: 'right'}}
+                            fractionDigits={0}
+                        />
+                    </View>
+                    <View width={16} flexG>
+                        <Button 
+                            flexG 
+                            borderRadius={8} 
+                            backgroundColor={'#66bb6a'}
+                            iconSource={() => <Ionicons name="save" size={24} color="white" />}
+                            onPress={() => onSubmit()}
+                        />
+                    </View>
+                </View>
+                <View
+                    style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                    }}
                 />
-                <Picker
-                    value={formData.type}
-                    fieldType="filter"
-                    placeholder={'Tipe Catatan'}
-                    onChange={(value) => {
-                        setFormData({
-                            ...formData,
-                            type: value?.toString()
-                        })
-                    }}
-                    useSafeArea
-                    items={[
-                        {
-                            label: 'Pemasukan',
-                            value: 'I'
-                        },
-                        {
-                            label: 'Pengeluaran',
-                            value: 'E'
-                        },
-                    ]}
-                    mode={PickerModes.SINGLE}
-                />
-            
-                <TextField
-                    placeholder={'Deskripsi'}
-                    floatingPlaceholder
-                    onSubmitEditing={({nativeEvent: {text}}) => {
-                        setFormData({
-                            ...formData,
-                            description: text
-                        })
-                    }}
-                    onChange={({nativeEvent: {text}}) => {
-                        setFormData({
-                            ...formData,
-                            description: text
-                        })
-                    }}
-                    defaultValue={formData.description}
-                    enableErrors
-                />
-                <NumberInput 
-                    initialNumber={formData.nominal}
-                    onChangeNumber={(value) => setFormData({
-                        ...formData,
-                        nominal: value.type === 'valid' ? value.number : 0
-                    })} 
-                    textFieldProps={{
-                        label: 'Nominal'
-                    }}
-                    fractionDigits={0}
-                />
+                {
+                    data.map((value,index) => (
+                        <ExpenseIncomeItem key={index} index={index} expenseIncomeData={value}/>
+                    ))
+                }                
             </View>
         </Modal>
     )
