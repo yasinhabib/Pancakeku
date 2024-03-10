@@ -14,6 +14,7 @@ import ExpenseIncomeCalendar from './src/ExpenseIncomeCalendar';
 import { connectToDatabase } from './src/db';
 import Summary from './src/Summary';
 import MonthSummary from './src/Summary/monthSum';
+import Footer from './src/Footer';
 
 const App = () => {  
   useEffect(() => {
@@ -35,6 +36,7 @@ const App = () => {
             <ExpenseIncomeCalendar />
             <FormInputModal />  
             <Summary />  
+            <Footer />
         </View>
       </Provider>
   );

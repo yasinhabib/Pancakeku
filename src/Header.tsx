@@ -1,4 +1,4 @@
-import { Button, Colors, Text, View } from "react-native-ui-lib"
+import { Colors, Text, View } from "react-native-ui-lib"
 
 const Header = () => {
 
