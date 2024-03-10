@@ -6,6 +6,7 @@ import inputModalReducer from './slices/inputModal'
 import selectedDateReducer from './slices/selectedDate'
 import markerDataReducer from './slices/markerData'
 import { rootSaga } from './sagas';
+import totalExpenseIncome from "./slices/totalExpenseIncome";
 
 const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     inputModal: inputModalReducer,
     selectedDate: selectedDateReducer,
     markerData: markerDataReducer,
+    totalExpenseIncome: totalExpenseIncome
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: false}).concat(sagaMiddleware)
 });

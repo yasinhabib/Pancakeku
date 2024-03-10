@@ -14,7 +14,7 @@ const Header = () => {
                 backgroundColor: 'chocolate'
             }} 
         >
-            <Text adjustsFontSizeToFit style={{fontSize: 24, color: Colors.grey80}}>Finotes</Text>
+            <Text adjustsFontSizeToFit style={{ color: Colors.grey80}}>Finotes</Text>
         </View>
     )
 }

@@ -6,7 +6,9 @@ export const formatCurrency = (number: number) => {
         style: 'currency',
         currency: 'IDR',
     });
-
+    if(number < 0){
+      return `(${IDR.format(number * -1)})` 
+    }
     return IDR.format(number)
 }
 

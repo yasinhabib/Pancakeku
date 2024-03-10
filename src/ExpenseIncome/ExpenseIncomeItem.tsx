@@ -42,12 +42,13 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
     },[formData?.nominal])
 
     return(
-        <View style={{flexDirection:'row', gap: 8, alignItems: 'stretch', justifyContent: 'space-between'}}>
+        <View style={{flexDirection:'row', alignItems: 'stretch', justifyContent: 'space-between',gap: 0}}>
             <View 
                 style={{
                     borderColor: 'black', 
                     borderWidth: 1, 
-                    borderRadius: 8, 
+                    borderLeftWidth: 0,
+                    borderRadius: 0, 
                     paddingHorizontal: 8,
                     paddingVertical: 16,
                     display: 'flex',
@@ -81,7 +82,8 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                 style={{
                     borderColor: 'black', 
                     borderWidth: 1, 
-                    borderRadius: 8, 
+                    borderLeftWidth: 0,
+                    borderRadius: 0, 
                     paddingHorizontal: 8,
                     paddingVertical: 16,
                     display: 'flex',
@@ -101,10 +103,20 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     fractionDigits={0}
                 />
             </View>
-            <View width={16} flexG>
+            <View 
+                width={16} 
+                flexG
+                style={{
+                    borderColor: 'black', 
+                    borderWidth: 1, 
+                    borderLeftWidth: 0,
+                    borderRightWidth: 0,
+                    borderRadius: 0
+                }} 
+            >
                 <Button 
                     flexG 
-                    borderRadius={8} 
+                    borderRadius={0} 
                     backgroundColor={'#f44336'}
                     iconSource={() => <Ionicons name="trash-bin" size={24} color="white" />}
                     onPress={() => deleteData()}

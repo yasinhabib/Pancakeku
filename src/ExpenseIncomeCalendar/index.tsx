@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { MarkedDates } from "react-native-calendars/src/types";
 import { setSelectedDate } from "../redux/slices/selectedDate";
-import { GET_MARKER } from "../redux/types";
+import { GET_MARKER, GET_MONTH_TOTAL } from "../redux/types";
 
 const income = {key: 'income', color: 'green', selectedDotColor: 'green'};
 const expense = {key: 'expense', color: 'red', selectedDotColor: 'red'};
@@ -45,6 +45,7 @@ const ExpenseIncomeCalendar = () => {
 
     const initMarker = (month : number,year : number) => {
         dispatch({type: GET_MARKER, month: month, year: year})
+        dispatch({type: GET_MONTH_TOTAL, month: month, year: year})
     }
 
     return(

@@ -32,9 +32,7 @@ const Summary = () => {
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 gap: 16,
-                borderRadius: 8
             }}
-            margin-20
         >
             <View 
                 style={{
@@ -44,7 +42,8 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Tanggal : {dateFormat(date)}</Text>
+                <Text color={Colors.grey80}>Tanggal</Text>
+                <Text color={Colors.grey80}>{dateFormat(date)}</Text>
             </View>
             <View 
                 style={{
@@ -54,7 +53,8 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Pemasukan : {formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
+                <Text color={Colors.grey80}>Total Pemasukan</Text>
+                <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
             <View 
                 style={{
@@ -64,7 +64,19 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Pengeluaran : {formatCurrency((data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
+                <Text color={Colors.grey80}>Total Pengeluaran </Text>
+                <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
+            </View>
+            <View 
+                style={{
+                    flexDirection:'row', 
+                    gap: 8, 
+                    alignItems: 'stretch', 
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Text color={Colors.grey80}>Total Hari Ini </Text>
+                <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0) - (data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
         </View>
     )

@@ -5,6 +5,7 @@ import { watchGetDataMarkerAsync } from "./getMarker";
 import { watchDeleteDataAsync } from "./deleteData";
 import { watchUpdateDataAsync } from "./updateData";
 import { watchGetDataByDateTypeAsync } from "./getDataByDateType";
+import { watchTotalExpenseIncomeAsync } from "./setTotalExpenseIncome";
 
 export function* rootSaga() {
     yield all([
@@ -14,5 +15,6 @@ export function* rootSaga() {
         watchInsertDataAsync(),
         watchDeleteDataAsync(),
         watchUpdateDataAsync(),
+        watchTotalExpenseIncomeAsync(),
     ])
 }

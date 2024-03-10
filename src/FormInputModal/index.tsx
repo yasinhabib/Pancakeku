@@ -51,40 +51,58 @@ const FormInputModal = () => {
 
     return(
         <Modal visible={visible} onBackgroundPress={onCancel} animationType="slide">
-            <Modal.TopBar title={title} onCancel={onCancel} useSafeArea/>
+            <Modal.TopBar title={title} onCancel={onCancel} useSafeArea containerStyle={{backgroundColor: 'chocolate'}} titleStyle={{color: 'white'}}/>
             <View style={{
                 flexDirection:'column',
                 flex: 1,
-                padding: 16,
-                gap: 16
+                gap: 8
             }}>
                 <View 
                     centerV 
-                    padding-s2 
                     style={{
                         backgroundColor: 'chocolate',
                         flexBasis: 'auto', 
                         flexDirection: 'column',
                         justifyContent: 'space-between',
-                        gap: 16,
-                        borderRadius: 8
+                        borderRadius: 0
                     }}
                 >
                     <View 
                         style={{
-                            flexDirection:'row', 
+                            flexDirection:'column', 
                             gap: 8, 
                             alignItems: 'stretch', 
                             justifyContent: 'space-between',
                         }}
+                        padding-s2 
                     >
-                        <Text color={Colors.grey80}>Tanggal : {dateFormat(date)}</Text>
-                        <Text color={Colors.grey80}>Total : {formatCurrency(data.map((value,index) => value.nominal || 0).reduce((a,b) => a + b,0))}</Text>
+                        <View 
+                            style={{
+                                flexDirection:'row', 
+                                gap: 8, 
+                                alignItems: 'stretch', 
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <Text color={Colors.grey80}>Tanggal</Text>
+                            <Text color={Colors.grey80}>{dateFormat(date)}</Text>
+                        </View>
+                        <View 
+                            style={{
+                                flexDirection:'row', 
+                                gap: 8, 
+                                alignItems: 'stretch', 
+                                justifyContent: 'space-between',
+                            }}
+                        >
+                            <Text color={Colors.grey80}>Total {title}</Text>
+                            <Text color={Colors.grey80}>{formatCurrency(data.map((value,index) => value.nominal || 0).reduce((a,b) => a + b,0))}</Text>
+                        </View>
                     </View>
                     <View 
                         style={{
+                            backgroundColor: 'gray',
                             flexDirection:'row', 
-                            gap: 8, 
                             alignItems: 'stretch', 
                             justifyContent: 'space-between',
                         }}
@@ -94,7 +112,9 @@ const FormInputModal = () => {
                             style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                borderColor: 'black',
+                                borderRightWidth: 1
                             }}
                         >
                             <Text color={Colors.grey80} textAlign="center">Deskripsi</Text>
@@ -104,7 +124,9 @@ const FormInputModal = () => {
                             style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                borderColor: 'black',
+                                borderRightWidth: 1
                             }}
                         >
                         <Text color={Colors.grey80} textAlign="center">Nominal</Text>
@@ -115,7 +137,7 @@ const FormInputModal = () => {
                             style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
                             }}
                         >
                             <Text color={Colors.grey80} textAlign="center">Aksi</Text>
@@ -123,12 +145,13 @@ const FormInputModal = () => {
                     </View>
                 </View>
                 
-                <View style={{flexDirection:'row', gap: 8, alignItems: 'stretch', justifyContent: 'space-between'}}>
+                <View style={{flexDirection:'row', alignItems: 'stretch', justifyContent: 'space-between'}}>
                     <View 
                         style={{
                             borderColor: 'black', 
                             borderWidth: 1, 
-                            borderRadius: 8, 
+                            borderLeftWidth: 0,
+                            borderRadius: 0, 
                             paddingHorizontal: 8,
                             paddingVertical: 16,
                             display: 'flex',
@@ -160,7 +183,8 @@ const FormInputModal = () => {
                         style={{
                             borderColor: 'black', 
                             borderWidth: 1, 
-                            borderRadius: 8, 
+                            borderLeftWidth: 0,
+                            borderRadius: 0, 
                             paddingHorizontal: 8,
                             paddingVertical: 16,
                             display: 'flex',
@@ -180,27 +204,36 @@ const FormInputModal = () => {
                             fractionDigits={0}
                         />
                     </View>
-                    <View width={16} flexG>
+                    <View 
+                        width={16} 
+                        flexG
+                        style={{
+                            borderColor: 'black', 
+                            borderWidth: 1, 
+                            borderLeftWidth: 0,
+                            borderRightWidth: 0,
+                            borderRadius: 0
+                        }} 
+                    >
                         <Button 
-                            flexG 
-                            borderRadius={8} 
+                            flexG
+                            borderRadius={0} 
                             backgroundColor={'#66bb6a'}
                             iconSource={() => <Ionicons name="save" size={24} color="white" />}
                             onPress={() => onSubmit()}
                         />
                     </View>
                 </View>
-                <View
-                    style={{
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}
-                />
-                {
-                    data.map((value,index) => (
-                        <ExpenseIncomeItem key={index} index={index} expenseIncomeData={value}/>
-                    ))
-                }                
+                <View style={{
+                    flexDirection:'column',
+                    flex: 1,
+                }}>
+                    {
+                        data.map((value,index) => (
+                            <ExpenseIncomeItem key={index} index={index} expenseIncomeData={value}/>
+                        ))
+                    }                
+                </View>
             </View>
         </Modal>
     )

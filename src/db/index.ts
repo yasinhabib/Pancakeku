@@ -64,6 +64,37 @@ export const dbGetDataByDate = async (db: SQLiteDatabase,date : String) => {
     return resultSet
 }
 
+export const dbGetTotalByMonth = async (db: SQLiteDatabase,month : number, year: number) => {
+    const startDate = formatDate(new Date(year, month - 1, 1))
+    const endDate = formatDate(new Date(year, month, 0))
+    const query : Query[] = [{sql: "select  IFNULL(sum(case type when 'I' then nominal else nominal * -1 end),0) total from ExpenseIncomes where date between ? and ?",args: [startDate, endDate]}]
+
+    const getData = async () => {
+        return await db.execAsync(query,true)
+    }
+    let res = await getData()
+    if((res[0] as ResultSetError).error){
+        await db.transactionAsync(
+            async (tx) => {
+                await tx.executeSqlAsync(`
+                    CREATE TABLE IF NOT EXISTS ExpenseIncomes (
+                        id INTEGER DEFAULT 1,
+                        date DATE,
+                        description TEXT,
+                        type TEXT,
+                        nominal REAL,
+                        PRIMARY KEY(id)
+                    )
+                `);
+                
+                res[0] = await tx.executeSqlAsync("select sum(case type when 'i' then nominal else nominal * -1 end total) from ExpenseIncomes where date between ? and ?", [startDate as SQLStatementArg, endDate as SQLStatementArg]);
+            }
+        );
+    }
+    const resultSet = res[0] as ResultSet
+    return resultSet
+}
+
 export const dbGetDataMarker = async (db: SQLiteDatabase,month: number, year: number) => {
     const startDate = formatDate(new Date(year, month - 1, 1))
     const endDate = formatDate(new Date(year, month, 0))

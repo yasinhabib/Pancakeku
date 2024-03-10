@@ -10,25 +10,23 @@ const ExpenseIncome = () => {
         <View style={{
             flexDirection:'row',
             alignItems:'flex-start',
-            gap: 16,
-            padding: 16
         }}>
             <Button 
                 label="Pemasukan" 
                 flexG 
-                borderRadius={8} 
+                borderRadius={0} 
                 backgroundColor={'#66bb6a'}
                 iconSource={() => <Ionicons name="add-circle-outline" size={24} color="white" />}
-                labelProps={{style:{fontSize: 24, color: 'white'}}}
+                labelProps={{style:{color: 'white'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pemasukan'}))}
             />
             <Button 
                 label="Pengeluaran" 
                 flexG 
-                borderRadius={8} 
+                borderRadius={0} 
                 backgroundColor={'#f44336'}
                 iconSource={() => <Ionicons name="remove-circle-outline" size={24} color="white" />}
-                labelProps={{style:{fontSize: 24, color: 'white'}}}
+                labelProps={{style:{color: 'white'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pengeluaran'}))}
             />
             

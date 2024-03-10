@@ -13,6 +13,7 @@ import FormInputModal from './src/FormInputModal';
 import ExpenseIncomeCalendar from './src/ExpenseIncomeCalendar';
 import { connectToDatabase } from './src/db';
 import Summary from './src/Summary';
+import MonthSummary from './src/Summary/monthSum';
 
 const App = () => {  
   useEffect(() => {
@@ -25,10 +26,11 @@ const App = () => {
         <View useSafeArea style={{flexDirection: 'column',flex: 1}}>
             <StatusBar
               animated={true}
-              backgroundColor="#61dafb"
+              backgroundColor="chocolate"
               barStyle={'default'}
             />
             <Header />
+            <MonthSummary />
             <ExpenseIncome />    
             <ExpenseIncomeCalendar />
             <FormInputModal />  
