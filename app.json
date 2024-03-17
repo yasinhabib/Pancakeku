@@ -2,7 +2,7 @@
   "expo": {
     "name": "Finotes",
     "slug": "Pancakeku",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,9 +20,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "versionCode": 1
       },
       "package": "com.yasinhabib.Finotes"
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"
