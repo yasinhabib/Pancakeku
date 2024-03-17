@@ -40,7 +40,29 @@ export const dateFormat = (date: Date | string) : string | null => {
     const year = date.getFullYear();
   
     return day+' '+monthName[month]+' '+year;
+}
+
+export const dateFormatFull = (date: Date | string) : string | null => {
+  if(typeof date == 'string'){
+    if(date == null || date == undefined){
+      return null
+    }
+    date = new Date(date)
   }
+
+  if(date == null || date == undefined){
+    return null
+  }
+
+  const day = date.getDate();
+
+  const month = date.getMonth();
+  const monthName = ['Januari','Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+
+  const year = date.getFullYear();
+
+  return day+' '+monthName[month]+' '+year;
+}
 
 export const pad = (num : number, size: number) => {
     var s = "000000000" + num;

@@ -19,6 +19,9 @@ const ExpenseIncome = () => {
                 iconSource={() => <Ionicons name="add-circle-outline" size={24} color="white" />}
                 labelProps={{style:{color: 'white'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pemasukan'}))}
+                style={{
+                    height: 48
+                }}
             />
             <Button 
                 label="Pengeluaran" 
@@ -28,6 +31,9 @@ const ExpenseIncome = () => {
                 iconSource={() => <Ionicons name="remove-circle-outline" size={24} color="white" />}
                 labelProps={{style:{color: 'white'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pengeluaran'}))}
+                style={{
+                    height: 48
+                }}
             />
             
         </View>

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Calendar } from "react-native-calendars";
 import { View } from "react-native-ui-lib";
 import { useDispatch, useSelector } from "react-redux";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootState } from "../redux/store";
 import { MarkedDates } from "react-native-calendars/src/types";
 import { setSelectedDate } from "../redux/slices/selectedDate";
 import { GET_MARKER, GET_MONTH_TOTAL } from "../redux/types";
+import { dateFormatFull } from "../helper";
 
 const income = {key: 'income', color: 'green', selectedDotColor: 'green'};
 const expense = {key: 'expense', color: 'red', selectedDotColor: 'red'};
@@ -15,7 +17,9 @@ const ExpenseIncomeCalendar = () => {
     const {date} = useSelector((state: RootState) => state.selectedDate)
     const markerData = useSelector((state: RootState) => state.markerData)
 
-    const [markedDates,setMarkedDates] = useState<MarkedDates>()
+    const [markedDates,setMarkedDates] = useState<MarkedDates>({
+        '2024-02-08' : {accessibilityLabel: '',}
+    })
 
     useEffect(() => {
         const selectedDate = new Date(date)
@@ -34,6 +38,13 @@ const ExpenseIncomeCalendar = () => {
         }, {});
         for(const mark of marked){
             markedDate[mark.date || ''].dots?.push(mark.type == 'I' ? income : expense)
+        }
+        if(markedDate[date]){
+            if(marked.length > 0){
+                markedDate[date].accessibilityLabel = `Tanggal ${dateFormatFull(date)} terdapat data ${marked.map(value => value.type == 'I' ? 'Pemasukan' : 'Pengeluaran').join(' dan ')}`
+            }else{
+                markedDate[date].accessibilityLabel = `Tanggal ${dateFormatFull(date)} tidak terdapat data pemasukan dan pengeluaran}`
+            }
         }
 
         if(!marked.some(value => value.date == date)){
@@ -59,7 +70,15 @@ const ExpenseIncomeCalendar = () => {
                 markedDates={{
                     ...markedDates
                 }}
-                
+                renderArrow={(direction) => {
+                    if(direction == 'left'){
+                        return <Ionicons name="chevron-back-outline" size={28} color="black" />
+                    }
+
+                    if(direction == 'right'){
+                        return <Ionicons name="chevron-forward-outline" size={28} color="black" />
+                    }
+                }}
             />
             
         </View>

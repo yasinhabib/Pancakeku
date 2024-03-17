@@ -59,6 +59,8 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
             >
                 <TextField
                     placeholder={'Deskripsi'}
+                    accessible 
+                    accessibilityLabel={`Ubah Deskripsi Baris ke ${index + 1}`}
                     // floatingPlaceholder
                     onSubmitEditing={({nativeEvent: {text}}) => {
                         setFormData({
@@ -76,6 +78,9 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     }}
                     defaultValue={formData?.description}
                     focusable
+                    style={{
+                        height: 48
+                    }}
                 />
             </View>
             <View 
@@ -99,7 +104,15 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                         ...formData,
                         nominal: value.type === 'valid' ? value.number : 0
                     })} 
-                    textFieldProps={{textAlign: 'right', focusable: true}}
+                    textFieldProps={{
+                        textAlign: 'right', 
+                        focusable: true,
+                        accessible: true,
+                        accessibilityLabel:`Ubah Nominal Baris ke ${index + 1}`,
+                        style: {
+                            height: 48
+                        }
+                    }}
                     fractionDigits={0}
                 />
             </View>
@@ -120,6 +133,8 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     backgroundColor={'#f44336'}
                     iconSource={() => <Ionicons name="trash-bin" size={24} color="white" />}
                     onPress={() => deleteData()}
+                    accessibility
+                    accessibilityLabel={`Tombol Hapus Baris ke ${index + 1}`}
                 />
             </View>
         </View>

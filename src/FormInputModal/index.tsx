@@ -50,8 +50,27 @@ const FormInputModal = () => {
     }
 
     return(
-        <Modal visible={visible} onBackgroundPress={onCancel} animationType="slide">
-            <Modal.TopBar title={title} onCancel={onCancel} useSafeArea containerStyle={{backgroundColor: 'chocolate'}} titleStyle={{color: 'white'}}/>
+        <Modal 
+            visible={visible} 
+            onBackgroundPress={onCancel} 
+            animationType="slide" 
+            accessible 
+            accessibilityLabel={`Formulir Isian ${title}`}
+        >
+            <Modal.TopBar 
+                title={title} 
+                onCancel={onCancel} 
+                useSafeArea 
+                containerStyle={{backgroundColor: 'chocolate'}} 
+                titleStyle={{color: 'white'}}
+                cancelButtonProps={{
+                    style:{
+                        height: 48,
+                        width: 48,
+                        justifyContent: 'flex-start'
+                    }
+                }}
+            />
             <View style={{
                 flexDirection:'column',
                 flex: 1,
@@ -153,7 +172,6 @@ const FormInputModal = () => {
                             borderLeftWidth: 0,
                             borderRadius: 0, 
                             paddingHorizontal: 8,
-                            paddingVertical: 16,
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center'
@@ -162,6 +180,8 @@ const FormInputModal = () => {
                     >
                         <TextField
                             placeholder={'Deskripsi'}
+                            accessible 
+                            accessibilityLabel={`Isi Deskripsi ${title} Baru`}
                             // floatingPlaceholder
                             onSubmitEditing={({nativeEvent: {text}}) => {
                                 setFormData({
@@ -177,6 +197,9 @@ const FormInputModal = () => {
                             }}
                             defaultValue={formData?.description}
                             autoFocus
+                            style={{
+                                height: 48
+                            }}
                         />
                     </View>
                     <View 
@@ -186,7 +209,6 @@ const FormInputModal = () => {
                             borderLeftWidth: 0,
                             borderRadius: 0, 
                             paddingHorizontal: 8,
-                            paddingVertical: 16,
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center'
@@ -200,7 +222,14 @@ const FormInputModal = () => {
                                 ...formData,
                                 nominal: value.type === 'valid' ? value.number : 0
                             })} 
-                            textFieldProps={{textAlign: 'right'}}
+                            textFieldProps={{
+                                textAlign: 'right',
+                                accessible: true,
+                                accessibilityLabel: `Isi Nominal ${title} Baru`,
+                                style: {
+                                    height: 48
+                                }
+                            }}
                             fractionDigits={0}
                         />
                     </View>
@@ -221,6 +250,8 @@ const FormInputModal = () => {
                             backgroundColor={'#66bb6a'}
                             iconSource={() => <Ionicons name="save" size={24} color="white" />}
                             onPress={() => onSubmit()}
+                            accessibility
+                            accessibilityLabel={`Tombol Simpan`}
                         />
                     </View>
                 </View>
