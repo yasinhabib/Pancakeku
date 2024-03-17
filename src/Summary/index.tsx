@@ -75,7 +75,7 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Hari Ini </Text>
+                <Text color={Colors.grey80}>Total Saldo</Text>
                 <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0) - (data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
         </View>

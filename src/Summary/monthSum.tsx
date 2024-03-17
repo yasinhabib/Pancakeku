@@ -43,7 +43,7 @@ const MonthSummary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Bulan Ini</Text>
+                <Text color={Colors.grey80}>Saldo</Text>
                 <Text color={Colors.grey80}>{formatCurrency(total)}</Text>
             </View>
         </View>
