@@ -27,11 +27,11 @@ const Summary = () => {
             centerV 
             padding-s2 
             style={{
-                backgroundColor: 'chocolate',
+                backgroundColor: 'gray',
                 flexBasis: 'auto', 
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
-                gap: 16,
+                gap: 8,
             }}
         >
             <View 
@@ -53,7 +53,7 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Pemasukan</Text>
+                <Text color={Colors.grey80}>Pemasukan</Text>
                 <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
             <View 
@@ -64,7 +64,7 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Pengeluaran </Text>
+                <Text color={Colors.grey80}>Pengeluaran</Text>
                 <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
             <View 
@@ -75,7 +75,7 @@ const Summary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Total Saldo</Text>
+                <Text color={Colors.grey80}>Mutasi</Text>
                 <Text color={Colors.grey80}>{formatCurrency((data || []).filter(value => value.type == 'I').map(value => value.nominal || 0).reduce((a,b) => a+b,0) - (data || []).filter(value => value.type == 'E').map(value => value.nominal || 0).reduce((a,b) => a+b,0))}</Text>
             </View>
         </View>

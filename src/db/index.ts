@@ -67,7 +67,7 @@ export const dbGetDataByDate = async (db: SQLiteDatabase,date : String) => {
 export const dbGetTotalByMonth = async (db: SQLiteDatabase,month : number, year: number) => {
     const startDate = formatDate(new Date(year, month - 1, 1))
     const endDate = formatDate(new Date(year, month, 0))
-    const query : Query[] = [{sql: "select  IFNULL(sum(case type when 'I' then nominal else nominal * -1 end),0) total from ExpenseIncomes where date between ? and ?",args: [startDate, endDate]}]
+    const query : Query[] = [{sql: "select  IFNULL(sum(case type when 'I' then nominal else 0 end),0) income,  IFNULL(sum(case type when 'E' then nominal else 0 end),0) expense from ExpenseIncomes where date between ? and ?",args: [startDate, endDate]}]
 
     const getData = async () => {
         return await db.execAsync(query,true)
@@ -87,7 +87,7 @@ export const dbGetTotalByMonth = async (db: SQLiteDatabase,month : number, year:
                     )
                 `);
                 
-                res[0] = await tx.executeSqlAsync("select sum(case type when 'i' then nominal else nominal * -1 end total) from ExpenseIncomes where date between ? and ?", [startDate as SQLStatementArg, endDate as SQLStatementArg]);
+                res[0] = await tx.executeSqlAsync("select  IFNULL(sum(case type when 'I' then nominal else 0 end),0) income,  IFNULL(sum(case type when 'E' then nominal else 0 end),0) expense from ExpenseIncomes where date between ? and ?", [startDate as SQLStatementArg, endDate as SQLStatementArg]);
             }
         );
     }

@@ -43,6 +43,7 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
 
     return(
         <View style={{flexDirection:'row', alignItems: 'stretch', justifyContent: 'space-between',gap: 0}}>
+            
             <View 
                 style={{
                     borderColor: 'black', 
@@ -50,7 +51,6 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     borderLeftWidth: 0,
                     borderRadius: 0, 
                     paddingHorizontal: 8,
-                    paddingVertical: 16,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'
@@ -90,7 +90,6 @@ const ExpenseIncomeItem = ({expenseIncomeData,index}:ExpenseIncomeItemType) => {
                     borderLeftWidth: 0,
                     borderRadius: 0, 
                     paddingHorizontal: 8,
-                    paddingVertical: 16,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'

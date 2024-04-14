@@ -1,11 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-const initialState : number = 0
+const initialState : {
+    income: number,
+    expense: number
+} = {
+    income: 0,
+    expense: 0
+}
 
 const totalExpenseIncome = createSlice({
     name: 'totalExpenseIncome',
     initialState,
     reducers: {
-        setTotalExpenseIncome: (state,action: PayloadAction<number>) => {
+        setTotalExpenseIncome: (state,action: PayloadAction<{
+            income: number,
+            expense: number
+        }>) => {
             state = action.payload
 
             return state

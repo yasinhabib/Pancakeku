@@ -31,11 +31,11 @@ const App = () => {
               barStyle={'default'}
             />
             <Header />
-            <MonthSummary />
+            <Summary />  
             <ExpenseIncome />    
             <ExpenseIncomeCalendar />
             <FormInputModal />  
-            <Summary />  
+            <MonthSummary />
             <Footer />
         </View>
       </Provider>

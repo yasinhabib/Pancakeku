@@ -11,9 +11,12 @@ export function* setTotalExpenseIncomeSagas({month,year} : AnyAction) {
         const db : SQLiteDatabase = yield connectToDatabase()
         const res : ResultSet = yield dbGetTotalByMonth(db,month,year)
 
-        const result = res.rows as {total: number}[]
+        const result = res.rows as {
+            income: number,
+            expense: number
+        } []
 
-        yield put(setTotalExpenseIncome(result[0].total))
+        yield put(setTotalExpenseIncome(result[0]))
     }catch(error: any){
         console.log(error)
     }

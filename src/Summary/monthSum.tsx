@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { RootState } from "../redux/store"
 
 const MonthSummary = () => {
-    const total = useSelector((state: RootState) => state.totalExpenseIncome)
+    const {income, expense} = useSelector((state: RootState) => state.totalExpenseIncome)
     const {date} = useSelector((state: RootState) => state.selectedDate)
 
     const selectedDate = new Date(date)
@@ -16,15 +16,15 @@ const MonthSummary = () => {
             centerV 
             padding-s2 
             style={{
-                backgroundColor: 'gray',
+                backgroundColor: 'chocolate',
                 flexBasis: 'auto', 
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
-                gap: 16
+                gap: 8
             }}
             // margin-20
         >
-            <View 
+            {/* <View 
                 style={{
                     flexDirection:'row', 
                     gap: 8, 
@@ -34,6 +34,17 @@ const MonthSummary = () => {
             >
                 <Text color={Colors.grey80}>Bulan</Text>
                 <Text color={Colors.grey80}>{monthName[selectedDate.getMonth()]}</Text>
+            </View> */}
+            <View 
+                style={{
+                    flexDirection:'row', 
+                    gap: 8, 
+                    alignItems: 'stretch', 
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Text color={Colors.grey80}>Pemasukan Bulan ini</Text>
+                <Text color={Colors.grey80}>{formatCurrency(income)}</Text>
             </View>
             <View 
                 style={{
@@ -43,8 +54,19 @@ const MonthSummary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Saldo</Text>
-                <Text color={Colors.grey80}>{formatCurrency(total)}</Text>
+                <Text color={Colors.grey80}>Pengeluaran Bulan ini</Text>
+                <Text color={Colors.grey80}>{formatCurrency(expense)}</Text>
+            </View>
+            <View 
+                style={{
+                    flexDirection:'row', 
+                    gap: 8, 
+                    alignItems: 'stretch', 
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Text color={Colors.grey80}>Mutasi Bulan ini</Text>
+                <Text color={Colors.grey80}>{formatCurrency(income - expense)}</Text>
             </View>
         </View>
     )
