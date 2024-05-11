@@ -4,19 +4,17 @@ import { useSelector } from "react-redux"
 import { RootState } from "../redux/store"
 
 const MonthSummary = () => {
-    const {income, expense} = useSelector((state: RootState) => state.totalExpenseIncome)
+    const {income, expense, month, year} = useSelector((state: RootState) => state.totalExpenseIncome)
     const {date} = useSelector((state: RootState) => state.selectedDate)
 
-    const selectedDate = new Date(date)
-
-    const monthName = ['Januari','Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+    const monthName = ['Jan','Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 
     return(
         <View 
             centerV 
             padding-s2 
             style={{
-                backgroundColor: 'chocolate',
+                backgroundColor: 'gray',
                 flexBasis: 'auto', 
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
@@ -43,7 +41,7 @@ const MonthSummary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Pemasukan Bulan ini</Text>
+                <Text color={Colors.grey80}>Pemasukan {monthName[month-1]} {year}</Text>
                 <Text color={Colors.grey80}>{formatCurrency(income)}</Text>
             </View>
             <View 
@@ -54,7 +52,7 @@ const MonthSummary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Pengeluaran Bulan ini</Text>
+                <Text color={Colors.grey80}>Pengeluaran {monthName[month-1]} {year}</Text>
                 <Text color={Colors.grey80}>{formatCurrency(expense)}</Text>
             </View>
             <View 
@@ -65,7 +63,7 @@ const MonthSummary = () => {
                     justifyContent: 'space-between',
                 }}
             >
-                <Text color={Colors.grey80}>Mutasi Bulan ini</Text>
+                <Text color={Colors.grey80}>Mutasi {monthName[month-1]} {year}</Text>
                 <Text color={Colors.grey80}>{formatCurrency(income - expense)}</Text>
             </View>
         </View>

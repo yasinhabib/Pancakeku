@@ -9,8 +9,8 @@ import { setSelectedDate } from "../redux/slices/selectedDate";
 import { GET_MARKER, GET_MONTH_TOTAL } from "../redux/types";
 import { dateFormatFull } from "../helper";
 
-const income = {key: 'income', color: 'green', selectedDotColor: 'green'};
-const expense = {key: 'expense', color: 'red', selectedDotColor: 'red'};
+const income = {key: 'income', color: '#66bb6a', selectedDotColor: '#66bb6a'};
+const expense = {key: 'expense', color: '#f44336', selectedDotColor: '#f44336'};
 
 const ExpenseIncomeCalendar = () => {
     const dispatch = useDispatch()

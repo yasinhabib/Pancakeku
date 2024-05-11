@@ -16,7 +16,11 @@ export function* setTotalExpenseIncomeSagas({month,year} : AnyAction) {
             expense: number
         } []
 
-        yield put(setTotalExpenseIncome(result[0]))
+        yield put(setTotalExpenseIncome({
+            ...result[0],
+            month: month,
+            year: year
+        }))
     }catch(error: any){
         console.log(error)
     }

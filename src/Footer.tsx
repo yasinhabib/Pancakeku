@@ -15,7 +15,7 @@ const Footer = () => {
                 flex: 1
             }} 
         >
-            <Text>Finotes v{packageJson.version}</Text>
+            <Text style={{fontSize: 10}}>Finotes v{packageJson.version}</Text>
         </View>
     )
 }

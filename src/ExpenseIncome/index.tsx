@@ -17,10 +17,10 @@ const ExpenseIncome = () => {
                 borderRadius={0} 
                 backgroundColor={'#66bb6a'}
                 iconSource={() => <Ionicons name="add-circle-outline" size={24} color="white" />}
-                labelProps={{style:{color: 'white'}}}
+                labelProps={{style:{color: 'white', fontWeight: 'bold'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pemasukan'}))}
                 style={{
-                    height: 48
+                    height: 48,
                 }}
             />
             <Button 
@@ -29,7 +29,7 @@ const ExpenseIncome = () => {
                 borderRadius={0} 
                 backgroundColor={'#f44336'}
                 iconSource={() => <Ionicons name="remove-circle-outline" size={24} color="white" />}
-                labelProps={{style:{color: 'white'}}}
+                labelProps={{style:{color: 'white', fontWeight: 'bold'}}}
                 onPress={() => dispatch(setVisible({visible: true, title: 'Pengeluaran'}))}
                 style={{
                     height: 48

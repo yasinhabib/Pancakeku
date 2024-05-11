@@ -27,7 +27,7 @@ const Summary = () => {
             centerV 
             padding-s2 
             style={{
-                backgroundColor: 'gray',
+                backgroundColor: 'chocolate',
                 flexBasis: 'auto', 
                 flexDirection: 'column',
                 justifyContent: 'flex-start',

@@ -15,6 +15,7 @@ import { connectToDatabase } from './src/db';
 import Summary from './src/Summary';
 import MonthSummary from './src/Summary/monthSum';
 import Footer from './src/Footer';
+import Legend from './src/Legend';
 
 const App = () => {  
   useEffect(() => {
@@ -31,11 +32,12 @@ const App = () => {
               barStyle={'default'}
             />
             <Header />
-            <Summary />  
-            <ExpenseIncome />    
-            <ExpenseIncomeCalendar />
-            <FormInputModal />  
             <MonthSummary />
+            <ExpenseIncomeCalendar />
+            <ExpenseIncome />    
+            <FormInputModal />  
+            <Summary /> 
+            <Legend /> 
             <Footer />
         </View>
       </Provider>

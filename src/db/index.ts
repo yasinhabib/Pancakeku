@@ -99,7 +99,7 @@ export const dbGetDataMarker = async (db: SQLiteDatabase,month: number, year: nu
     const startDate = formatDate(new Date(year, month - 1, 1))
     const endDate = formatDate(new Date(year, month, 0))
     
-    const query : Query[] = [{sql: 'select distinct date, type from ExpenseIncomes where date between ? and ? order by date asc',args: [startDate, endDate]}]
+    const query : Query[] = [{sql: 'select distinct date, type from ExpenseIncomes where date between ? and ? order by date asc, type desc',args: [startDate, endDate]}]
     const res = await db.execAsync(query,true)
     const resultSet = res[0] as ResultSet
     return resultSet
